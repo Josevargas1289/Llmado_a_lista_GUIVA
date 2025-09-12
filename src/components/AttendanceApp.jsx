@@ -6,9 +6,9 @@ import teachersData from "../data/teachers.json";
 import { formatDateForCO, todayISO } from "../utils/dates";
 import { shortName } from "../utils/names";
 
-const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-const EMAILJS_PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+const EMAILJS_SERVICE_ID = "service_2kchrz6";
+const EMAILJS_TEMPLATE_ID = "template_z5m0rsd";
+const EMAILJS_PUBLIC_KEY  = "Jq93V4hq-fbPChlCw";
 
 export default function AttendanceApp({ teacherEmail, onChangeUser }) {
   // Encontrar docente
