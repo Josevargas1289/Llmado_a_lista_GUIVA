@@ -10,7 +10,6 @@ const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
 const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 const EMAILJS_PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-
 export default function AttendanceApp({ teacherEmail, onChangeUser }) {
   // Encontrar docente
   const teacher = useMemo(
@@ -86,26 +85,34 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
     setAll(!allPresent);
   }
 
-  async function sendEmail() {
-    if (!teacher) return;
-    if (!currentGroup) {
-      alert("Selecciona el grupo.");
-      return;
-    }
+  // ==== Estados para modales ====
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [confirmData, setConfirmData] = useState(null);
+
+  // Paso 1: abrir modal de confirmación
+  function sendEmail() {
+    if (!teacher || !currentGroup) return;
+
     const fecha = formatDateForCO(dateStr);
     const absentCount = absentees.length;
 
-    const ok = window.confirm(
-      `¿Enviar el reporte de inasistencia del ${fecha}?\nGrupo: ${currentGroup.name}\nAusentes: ${absentCount}`
-    );
-    if (!ok) return;
+    setConfirmData({ fecha, grupo: currentGroup.name, absentCount });
+    setShowConfirm(true); 
+  }
 
-    const subject = `Inasistencia ${currentGroup.name} · ${fecha}`;
+  // Paso 2: si el usuario acepta en el modal, enviamos
+  async function handleConfirmSend() {
+    setShowConfirm(false);
+    const { fecha, grupo, absentCount } = confirmData;
+
+    const subject = `Inasistencia ${grupo} · Fecha: ${fecha.replace(/\//g, "-")}`;
     const header =
       `Reporte de inasistencia\n` +
       `Docente: ${teacher.name}\n` +
       `Rol: ${teacher.role}\n` +
-      `Grupo: ${currentGroup.name}\n` +
+      `Grupo: ${grupo}\n` +
       `Fecha: ${fecha}\n\n`;
 
     const body =
@@ -113,19 +120,17 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
         ? `${header}Asistieron todos los estudiantes.`
         : header + absentees.map((s) => `${s.id}. ${s.name}`).join("\n");
 
-    const params = { subject, body };
-
     try {
       await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
-        params,
+        { subject, body },
         EMAILJS_PUBLIC_KEY
       );
-      alert("✅ Reporte enviado");
+      setShowSuccess(true); // ✅ modal de éxito
     } catch (e) {
       console.error(e);
-      alert("❌ No se pudo enviar el correo. Verifica credenciales y plantilla en EmailJS.");
+      setShowError(true);   // ❌ modal de error
     }
   }
 
@@ -163,17 +168,6 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
               />
             </label>
           </div>
-
-          {/* 🔒 GroupSelector comentado para usar en el futuro si se requiere
-          {mustChooseGroup && (
-            <GroupSelector
-              groups={Array.from(groupsById.values())}
-              allowedIds={teacher.assignedGrades}
-              value={groupId}
-              onChange={setGroupId}
-            />
-          )}
-          */}
 
           <div className="row">
             <button className="btn secundary" onClick={toggleAll} disabled={!currentGroup}>
@@ -231,6 +225,43 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
           </>
         )}
       </section>
+
+      {/* ==== MODALES ==== */}
+      {showConfirm && (
+        <div className="modal-overlay">
+          <div className="modal-card">
+            <h2>Confirmar envío</h2>
+            <p>
+              ¿Enviar el reporte de inasistencia del <b>{confirmData.fecha}</b>?<br />
+              Grupo: <b>{confirmData.grupo}</b><br />
+              Ausentes: <b>{confirmData.absentCount}</b>
+            </p>
+            <div className="modal-actions">
+              <button className="modal-btn primary" onClick={handleConfirmSend}>Aceptar</button>
+              <button className="modal-btn secondary" onClick={() => setShowConfirm(false)}>Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showSuccess && (
+        <div className="modal-overlay">
+          <div className="modal-card success">
+            <h2>✅ Reporte enviado</h2>
+            <button className="modal-btn primary" onClick={() => setShowSuccess(false)}>Aceptar</button>
+          </div>
+        </div>
+      )}
+
+      {showError && (
+        <div className="modal-overlay">
+          <div className="modal-card error">
+            <h2>❌ No se pudo enviar</h2>
+            <p>Verifica credenciales y plantilla en EmailJS.</p>
+            <button className="modal-btn primary" onClick={() => setShowError(false)}>Cerrar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
