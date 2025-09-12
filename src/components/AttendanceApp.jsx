@@ -146,7 +146,7 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
         {teacher && (
           <div className="row">
             <div className="pill">Docente: <strong>{teacher.name}</strong></div>
-            <button className="btn linklike" onClick={handleChangeUser}>
+            <button className="btn linklike" onClick={handleChangeUser} style={{ display: "none"}}>
               Cambiar usuario
             </button>
           </div>
