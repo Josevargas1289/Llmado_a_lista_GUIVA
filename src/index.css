@@ -1,0 +1,285 @@
+:root {
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --text: #222;
+  --muted: #666;
+  --brand: #2563eb;
+  --ok: #16a34a;
+  --bad: #dc2626;
+  --border: #e5e7eb;
+}
+.stats-section {
+  background: #f9fafb;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.stats-section .pill {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  min-width: 120px;
+  text-align: center;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Helvetica, Arial;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.container { max-width: 900px; margin: 24px auto; padding: 0 16px; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; align-content: center;}
+label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--muted); }
+
+input[type="date"], input[type="email"] {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+  margin: 2px;
+}
+.btn:hover { background: #f3f4f6; }
+.btn.primary { background: var(--brand); color: #fff; border-color: var(--brand); }
+.btn.outline { background: transparent; }
+.btn.secundary { background: #d2e0ff; color: #000000; border-color: #a5c2ff; }
+
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { padding: 8px; border-bottom: 1px solid var(--border); }
+
+/* Switch */
+.switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc; transition: .2s; border-radius: 22px;
+}
+.slider:before {
+  position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px;
+  background-color: white; transition: .2s; border-radius: 50%;
+}
+input:checked + .slider { background-color: #4ade80; }
+input:checked + .slider:before { transform: translateX(18px); }
+
+/* Badges */
+.badge {
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+/* ==== MODALES ==== */
+.modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 320px;
+  width: 100%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content.success h3 { color: #16a34a; }
+.modal-content.error h3 { color: #dc2626; }
+
+.modal-btn {
+  margin-top: 16px;
+  padding: 8px 16px;
+  background: var(--brand);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.modal-btn:hover { opacity: 0.9; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 600px) {
+  .container {
+    padding: 0 8px;
+  }
+
+  h1, h2 {
+    font-size: 18px;
+  }
+
+  .row {
+    flex-direction: column;
+    align-items: stretch;
+    
+  }
+
+  input[type="date"],
+  input[type="email"],
+  .btn {
+    width: 100%;
+  }
+
+  .table {
+    display: block;
+    overflow-x: auto; /* scroll horizontal si no cabe */
+    white-space: nowrap;
+  }
+}
+
+.badge.yes { background: #dcfce7; color: var(--ok); }
+.badge.no { background: #fee2e2; color: var(--bad); }
+
+.date{
+  background: #fff;
+  cursor: pointer;
+  margin: 2px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.text-center{
+  text-align: center;
+}
+
+/* Columna ID centrada */
+.table th:first-child,
+.table td:first-child {
+  text-align: center;
+  width: 40px; /* opcional, controla el ancho */
+}
+
+/* Columna Nombre alineada a la izquierda */
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  text-align: left;
+}
+/* ==== Controles de asistencia (fecha + botones) ==== */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+  margin: 12px 0;
+}
+
+/* En pantallas grandes: todo en una fila */
+@media (min-width: 768px) {
+  .controls {
+    flex-direction: row;       /* 👉 cambia a fila */
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+    
+   
+  }
+
+  .controls input[type="date"] {
+    width: auto;     
+      align-content: center;          /* 👉 el input no se expande */
+  }
+
+  .controls .btn {
+    width: auto; 
+      align-content: center;             /* 👉 los botones no ocupan todo */
+  }
+  /* Por defecto en columna (móvil) */
+.inline-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--muted);
+ 
+}
+
+/* En pantallas grandes: en fila */
+@media (min-width: 768px) {
+  .inline-label {
+    flex-direction: row;
+    align-items: center ;
+    align-content: center;
+    gap: 8px;
+  
+  }
+}
+/* Bloque de estadísticas (Total / Ausentes) */
+.stats-section {
+  background: #f9fafb;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.stats-section .pill {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  min-width: 120px;
+  text-align: center;
+}
+
+/* 📱 En pantallas pequeñas, fuerza columna */
+@media screen and (max-width: 768px) {
+  .stats-section {
+    flex-direction: column !important;  /* ⚡ se fuerza */
+    align-items: stretch !important;
+    background-color: #16a34a !important;
+  }
+
+  .stats-section .pill {
+    width: 100% !important;            /* ⚡ ocupa todo */
+  }
+}
+
+
+  
+}
