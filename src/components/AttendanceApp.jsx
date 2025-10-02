@@ -6,10 +6,6 @@ import teachersData from "../data/teachers.json";
 import { formatDateForCO, todayISO } from "../utils/dates";
 import { shortName } from "../utils/names";
 
-const EMAILJS_SERVICE_ID = "service_2kchrz6";
-const EMAILJS_TEMPLATE_ID = "template_z5m0rsd";
-const EMAILJS_PUBLIC_KEY  = "Jq93V4hq-fbPChlCw";
-
 export default function AttendanceApp({ teacherEmail, onChangeUser }) {
   // Encontrar docente
   const teacher = useMemo(
@@ -20,7 +16,7 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
   // Seguridad: si no existe el docente en el JSON
   useEffect(() => {
     if (!teacher) {
-      onChangeUser?.(); 
+      onChangeUser?.();
     }
   }, [teacher, onChangeUser]);
 
@@ -99,7 +95,7 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
     const absentCount = absentees.length;
 
     setConfirmData({ fecha, grupo: currentGroup.name, absentCount });
-    setShowConfirm(true); 
+    setShowConfirm(true);
   }
 
   // Paso 2: si el usuario acepta en el modal, enviamos
@@ -122,10 +118,10 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
 
     try {
       await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
+        teacher.emailjs.serviceId,
+        teacher.emailjs.templateId,
         { subject, body },
-        EMAILJS_PUBLIC_KEY
+        teacher.emailjs.publicKey
       );
       setShowSuccess(true); // ✅ modal de éxito
     } catch (e) {

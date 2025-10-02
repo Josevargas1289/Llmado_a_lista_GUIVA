@@ -3,132 +3,242 @@
     "name": "Duque Gaviria Gloria",
     "email": "d.gva.gloria.duque@cali.edu.co",
     "role": "primaria",
-    "assignedGrades": ["T-1"]
+    "assignedGrades": ["T-1"],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Díaz Salamanca Paola Andrea",
     "email": "d.gva.paola.diaz@cali.edu.co",
     "role": "primaria",
-    "assignedGrades": ["T-2"]
+    "assignedGrades": ["T-2"],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Muñoz Belalcázar Isabel Cristina",
     "email": "d.gva.isabel.munoz@cali.edu.co",
     "role": "primaria",
-    "assignedGrades": ["1-1"]
+    "assignedGrades": ["1-1"],
+    "emailjs": {
+      "serviceId": "service_ml74qzy",
+      "templateId": "template_m2jc20j",
+      "publicKey": "XQYEs3WMg1xPfCesX"
+    }
   },
   {
     "name": "Moreno Acuña Sandra Patricia",
     "email": "d.gva.sandra.moreno@cali.edu.co",
     "role": "primaria",
-    "assignedGrades": ["1-2"]
+    "assignedGrades": ["1-2"],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Silva Giraldo Claudia Viviana",
     "email": "d.gva.claudia.silva@cali.edu.co",
     "role": "primaria",
-    "assignedGrades": ["2-1"]
+    "assignedGrades": ["2-1"],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Nieto Silva Patricia",
     "email": "d.gva.patricia.nieto@cali.edu.co",
     "role": "primaria",
-    "assignedGrades": ["2-2"]
+    "assignedGrades": ["2-2"],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Díaz Chilito María Amparo",
     "email": "d.gva.maria.diaz.@cali.edu.co",
     "role": "primaria",
-    "assignedGrades": ["3-1"]
+    "assignedGrades": ["3-1"],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Restrepo Castro Paula Andrea",
     "email": "d.gva.paula.restrepo@cali.edu.co",
     "role": "primaria",
-    "assignedGrades": ["3-2"]
+    "assignedGrades": ["3-2"],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Galvis Dinas Stefany",
     "email": "d.gva.stefany.galvis@cali.edu.co",
     "role": "primaria",
-    "assignedGrades": ["4-1"]
+    "assignedGrades": ["4-1"],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Vargas Arango José Roberto",
     "email": "d.gva.jose.vargas@cali.edu.co",
     "role": "primaria",
-    "assignedGrades": ["4-2"]
+    "assignedGrades": ["4-2"],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Betancourt Ramírez Héctor Hernán",
     "email": "d.gva.hector.betancourt@cali.edu.co",
     "role": "primaria",
-    "assignedGrades": ["5-1"]
+    "assignedGrades": ["5-1"],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Jaramillo Zapata Alejandra María",
     "email": "d.jda.alejandra.jaramillo@cali.edu.co",
     "role": "secundaria",
-    "assignedGrades": ["6-1"]
+    "assignedGrades": ["6-1"],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Jara Chávez Indira Paola",
     "email": "d.gva.indira.jara@cali.edu.co",
     "role": "secundaria",
-    "assignedGrades": ["6-2"]
+    "assignedGrades": ["6-2"],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Bejarano Rivera Ana María",
     "email": "d.gva.ana.bejarano@cali.edu.co",
     "role": "secundaria",
-    "assignedGrades": ["7-1"]
+    "assignedGrades": ["7-1"],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Ortiz Ramírez Paola Andrea",
     "email": "d.gva.paola.ortiz@cali.edu.co",
     "role": "secundaria",
-    "assignedGrades": ["7-2"]
+    "assignedGrades": ["7-2"],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Montenegro Mayor Luis Mario",
     "email": "d.gva.luis.montenegro@cali.edu.co",
     "role": "secundaria",
-    "assignedGrades": ["8-1"]
+    "assignedGrades": ["8-1"],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Castillo Possu Carlos Andrés",
     "email": "d.gva.carlos.castillo@cali.edu.co",
     "role": "secundaria",
-    "assignedGrades": ["9-1"]
+    "assignedGrades": ["9-1"],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Martínez Cruz Sindy Faissury",
     "email": "d.gva.sindy.martinez@cali.edu.co",
     "role": "secundaria",
-    "assignedGrades": ["10-1"]
+    "assignedGrades": ["10-1"],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Ordoñez Gonzalez Alexander Enrique",
     "email": "d.gva.alexander.ordonez@cali.edu.co",
     "role": "secundaria",
-    "assignedGrades": ["11-1"]
+    "assignedGrades": ["11-1"],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Nempeque Morales Estefania",
     "email": "d.gva.estefania.nempeque@cali.edu.co",
     "role": "secundaria",
-    "assignedGrades": []
+    "assignedGrades": [],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Perez Vahos Hugo Marino",
     "email": "d.gva.hugo.perez@cali.edu.co",
     "role": "secundaria",
-    "assignedGrades": []
+    "assignedGrades": [],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   },
   {
     "name": "Sarmiento Ledesma Atalivar",
     "email": "d.gva.atalibar.sarmiento@cali.edu.co",
     "role": "secundaria",
-    "assignedGrades": []
+    "assignedGrades": [],
+    "emailjs": {
+      "serviceId": "service_2kchrz6",
+      "templateId": "template_z5m0rsd",
+      "publicKey": "Jq93V4hq-fbPChlCw"
+    }
   }
 ]
