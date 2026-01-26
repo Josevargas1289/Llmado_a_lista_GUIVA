@@ -416,6 +416,38 @@
       }
     ]
   },
+ {
+  "id": "4-2",
+  "name": "4-2",
+  "level": "primaria",
+  "students": [
+    { "id": 1, "name": "AGUERO GUERRERO HORIANNA DANIELA" },
+    { "id": 2, "name": "ALVAREZ VELASQUES JUAN SEBASTIAN" },
+    { "id": 3, "name": "CAICEDO CHAVERRA JOSHUA ESTEVEN" },
+    { "id": 4, "name": "CANDELA CORTES NICOLLE" },
+    { "id": 5, "name": "CORTES CASTRO ALIK DAMIAN" },
+    { "id": 6, "name": "DELGADO ZAMBRANO DYLAN ALEJANDRO" },
+    { "id": 7, "name": "ESPITIA DIAZ MIGUEL ANGEL" },
+    { "id": 8, "name": "GOMEZ HURTADO DAYAN" },
+    { "id": 9, "name": "GOMEZ MARSIGLIA NICOLLE SOPHIA" },
+    { "id": 10, "name": "GOMEZ MARTINEZ EIMY VERONICA" },
+    { "id": 11, "name": "HINESTROZA CASTAÑEDA LINSAY ORIANA" },
+    { "id": 12, "name": "MARQUEZ CAMAYO MARIA GABRIELA" },
+    { "id": 13, "name": "MARTINEZ JIMENEZ RASHIELLG ADONAY" },
+    { "id": 14, "name": "MARTINEZ MOYETONES XAVIANNIS ANTONELA" },
+    { "id": 15, "name": "MUJICA RINCONES MAIRIANNI ALEXANDRA" },
+    { "id": 16, "name": "MUÑOZ ZAMBRANO SAMUEL" },
+    { "id": 17, "name": "ORTEGA PIÑANGO EDUANYERLIZ DANIESY" },
+    { "id": 18, "name": "ORTEGA RINCON ISABELLA" },
+    { "id": 19, "name": "PANAMEÑO MANCILLA DARLING DAYANA" },
+    { "id": 20, "name": "SALAZAR OCAMPO LUCIANA" },
+    { "id": 21, "name": "SALCEDO CAMPOS GREYSDIANA PAOLA" },
+    { "id": 22, "name": "SERRANO SOLANO SALOME" },
+    { "id": 23, "name": "SINISTERRA DIAGO JEROME" },
+    { "id": 24, "name": "SUAREZ CHIRINO VICTOR JESUS" },
+    { "id": 25, "name": "VALENCIA RIVERA ERICK" }
+  ]
+},
   {
     "id": "2-1",
     "name": "2-1",
@@ -999,117 +1031,7 @@
       }
     ]
   },
-  {
-    "id": "4-2",
-    "name": "4-2",
-    "level": "primaria",
-    "students": [
-      {
-        "id": 1,
-        "name": "AGUILAR GUANIPA ASHLEY JOSEANNY"
-      },
-      {
-        "id": 2,
-        "name": "ALMANZA ROMO LUIS MANUEL"
-      },
-      {
-        "id": 3,
-        "name": "ANGULO DAZA JUVER ANTONIO"
-      },
-      {
-        "id": 4,
-        "name": "ARBOLEDA MARIN ADRIAN"
-      },
-      {
-        "id": 5,
-        "name": "AULAR SILVA ANGEL ANIBAL"
-      },
-      {
-        "id": 6,
-        "name": "BAÑES GELVES CRISTOPHER ALEJANDRO"
-      },
-      {
-        "id": 7,
-        "name": "CARDONA BETANCOURTH MIGUEL ANGEL"
-      },
-      {
-        "id": 8,
-        "name": "CLAVIJO DE-LA-TORRE LUCIANA"
-      },
-      {
-        "id": 9,
-        "name": "DAZA GUTIERREZ STEVEN"
-      },
-      {
-        "id": 10,
-        "name": "GARCIA SALAZAR ANDRES FELIPE"
-      },
-      {
-        "id": 11,
-        "name": "GUERRERO PEREZ AMBAR NICOLEE"
-      },
-      {
-        "id": 12,
-        "name": "HERNANDEZ BELIZARIO WUILIANNIS NAZARETH"
-      },
-      {
-        "id": 13,
-        "name": "LANDAZURI ANGULO SAHIARA"
-      },
-      {
-        "id": 14,
-        "name": "LOPEZ LOPEZ DANNY MAURICIO"
-      },
-      {
-        "id": 15,
-        "name": "MEDINA CIFUENTES JULIANA ANDREA"
-      },
-      {
-        "id": 16,
-        "name": "MEJIA MORA JULIANA VALERIA"
-      },
-      {
-        "id": 17,
-        "name": "MORIANO VARELA DYLAN STEVEN"
-      },
-      {
-        "id": 18,
-        "name": "MUÑOZ MOLINA ISABELLA"
-      },
-      {
-        "id": 19,
-        "name": "MURILLO TORRECILLA YOHANN ORLANDO"
-      },
-      {
-        "id": 20,
-        "name": "OÑATE MARTINEZ DANIEL MATIAS"
-      },
-      {
-        "id": 21,
-        "name": "PEREIRA GOMEZ MATHIAS JOSE"
-      },
-      {
-        "id": 22,
-        "name": "PETIT MONTIEL YAN BATIS"
-      },
-      {
-        "id": 23,
-        "name": "RENGIFO FLOREZ ISABELLA"
-      },
-      {
-        "id": 24,
-        "name": "SALAZAR RUIZ ASHLEY ALAIA"
-      },
-      {
-        "id": 25,
-        "name": "TORRES CASTRO JUAN-DIEGO"
-      },
-      {
-        "id": 26,
-        "name": "VALENCIA SANCHEZ ISABEL VALENTINA"
-      }
-    ]
-  },
+  
   {
     "id": "5-1",
     "name": "5-1",
