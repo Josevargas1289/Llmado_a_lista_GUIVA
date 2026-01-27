@@ -421,7 +421,6 @@
   "name": "4-2",
   "level": "primaria",
   "students": [
-    { "id": 1, "name": "AGUERO GUERRERO HORIANNA DANIELA" },
     { "id": 2, "name": "ALVAREZ VELASQUES JUAN SEBASTIAN" },
     { "id": 3, "name": "CAICEDO CHAVERRA JOSHUA ESTEVEN" },
     { "id": 4, "name": "CANDELA CORTES NICOLLE" },
