@@ -1,307 +1,580 @@
-:root {
-  --bg: #f6f7fb;
+/* ===========================================
+   Attendance UI • PRO Light (SaaS style)
+   Clean • Fresh • Responsive • Professional
+=========================================== */
+
+:root{
+  --bg: #f5f7ff;
+  --bg2:#f6fbff;
+
   --card: #ffffff;
-  --text: #222;
-  --muted: #666;
-  --brand: #2563eb;
-  --ok: #16a34a;
-  --bad: #dc2626;
-  --border: #e5e7eb;
+  --text: #0f172a;          /* slate-900 */
+  --muted:#64748b;          /* slate-500 */
+  --border:#e6eaf2;
+
+  --brand:#2563eb;          /* blue-600 */
+  --brand2:#1d4ed8;         /* blue-700 */
+  --brandSoft:#eef4ff;
+
+  --ok:#16a34a;
+  --bad:#dc2626;
+
+  --radius: 18px;
+  --radius2: 14px;
+
+  --shadow: 0 18px 45px rgba(15, 23, 42, .08);
+  --shadow2: 0 10px 25px rgba(15, 23, 42, .06);
+  --shadow3: 0 2px 8px rgba(15, 23, 42, .05);
+
+  --ring: 0 0 0 4px rgba(37, 99, 235, .14);
 }
 
-.stats-section {
-  background: #f9fafb;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 16px;
-  margin-bottom: 16px;
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
+*{ box-sizing: border-box; }
 
-.stats-section .pill {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 6px 12px;
-  font-size: 14px;
-  font-weight: 500;
+html, body{ height: 100%; }
+
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Helvetica, Arial;
   color: var(--text);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  min-width: 120px;
-  text-align: center;
+
+  /* Mesh gradient suave (pro) */
+  background:
+    radial-gradient(1200px 700px at 15% 10%, rgba(37,99,235,.14), transparent 60%),
+    radial-gradient(900px 600px at 85% 0%, rgba(16,185,129,.10), transparent 55%),
+    radial-gradient(700px 500px at 60% 90%, rgba(245,158,11,.10), transparent 55%),
+    linear-gradient(180deg, var(--bg), var(--bg2));
 }
 
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Helvetica, Arial;
-  background: var(--bg);
-  color: var(--text);
+/* ============ Layout ============ */
+.container{
+  width: min(1040px, calc(100% - 24px));
+  margin: 22px auto 34px;
+  display: grid;
+  gap: 16px;
 }
 
-.container { max-width: 900px; margin: 24px auto; padding: 0 16px; }
-
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 16px;
+/* App top bar look (sin tocar HTML) */
+.container > .card:first-child{
+  position: relative;
+  overflow: hidden;
 }
-
-.row { 
-  display: flex; 
-  gap: 12px; 
-  flex-wrap: wrap; 
-  align-items: center; 
-  align-content: center;
+.container > .card:first-child::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  height: 4px;
+  background: linear-gradient(90deg, rgba(37,99,235,1), rgba(99,102,241,1), rgba(16,185,129,1));
 }
+.text-center{ text-align:center; }
 
-label { 
-  display: flex; 
-  flex-direction: column; 
-  gap: 6px; 
-  font-size: 14px; 
-  color: var(--muted); 
+h1{
+  margin: 8px 0 6px;
+  font-size: clamp(18px, 2.7vw, 30px);
+  letter-spacing: -0.4px;
 }
-
-input[type="date"], input[type="email"] {
-  padding: 8px 10px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 14px;
+h2{
+  margin: 0 0 12px;
+  font-size: clamp(16px, 2.2vw, 22px);
+  letter-spacing: -0.3px;
 }
-
-.btn {
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: #fff;
-  cursor: pointer;
-  margin: 2px;
-}
-.btn:hover { background: #f3f4f6; }
-.btn.primary { background: var(--brand); color: #fff; border-color: var(--brand); }
-.btn.outline { background: transparent; }
-.btn.secundary { background: #d2e0ff; color: #000000; border-color: #a5c2ff; }
-
-.table { width: 100%; border-collapse: collapse; }
-.table th, .table td { padding: 8px; border-bottom: 1px solid var(--border); }
-
-/* Switch */
-.switch { position: relative; display: inline-block; width: 40px; height: 22px; }
-.switch input { opacity: 0; width: 0; height: 0; }
-.slider {
-  position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #ccc; transition: .2s; border-radius: 22px;
-}
-.slider:before {
-  position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px;
-  background-color: white; transition: .2s; border-radius: 50%;
-}
-input:checked + .slider { background-color: #4ade80; }
-input:checked + .slider:before { transform: translateX(18px); }
-
-/* Badges */
-.badge {
-  margin-left: 8px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 12px;
-}
-
-.badge.yes { background: #dcfce7; color: var(--ok); }
-.badge.no { background: #fee2e2; color: var(--bad); }
-
-/* ==== MODALES ==== */
-.modal-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-  padding: 16px; /* margen interno en móviles */
-}
-
-.modal-card {
-  background: var(--card);
-  border-radius: 14px;
-  padding: 24px;
-  max-width: 400px;
-  width: 100%;
-  text-align: center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-.modal-card h2 {
-  margin-bottom: 12px;
-  font-size: 20px;
-  color: var(--text);
-}
-
-.modal-card p {
-  color: var(--muted);
+h3{
+  margin: 0 0 10px;
   font-size: 15px;
-  line-height: 1.5;
-  margin-bottom: 20px;
+}
+p{
+  margin: 6px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
 }
 
-.modal-actions {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+/* ============ Cards ============ */
+.card{
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow2);
+  padding: 18px;
+}
+
+@media (min-width: 920px){
+  .card{ padding: 20px; }
+}
+
+/* ============ Rows & spacing ============ */
+.row{
+  display:flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
   flex-wrap: wrap;
 }
 
-/* Modales de estado */
-.modal-card.success h2 { color: var(--ok); }
-.modal-card.error h2 { color: var(--bad); }
+/* Controls section: spacing pro */
+.controls{
+  display:grid;
+  gap: 12px;
+  margin-top: 12px;
+}
 
-/* Botones dentro del modal */
-.modal-btn {
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
+/* Inline label like "Fecha: [input]" */
+.inline-label{
+  display:flex;
+  gap: 10px;
+  align-items:center;
+  flex-wrap:wrap;
   font-size: 14px;
-  font-weight: 500;
-  transition: background 0.2s;
+  color: var(--muted);
 }
 
-.modal-btn.primary {
-  background: var(--brand);
-  color: #fff;
+/* ============ Inputs ============ */
+label{
+  display:flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
 }
 
-.modal-btn.primary:hover {
-  background: #1e4db7;
+input[type="date"],
+input[type="email"],
+.input,
+.select,
+select{
+  width: 100%;
+  padding: 11px 12px;
+  border-radius: var(--radius2);
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  outline: none;
+  box-shadow: 0 1px 0 rgba(15,23,42,.03);
+  transition: border-color .2s ease, box-shadow .2s ease, transform .06s ease, background .2s ease;
 }
 
-.modal-btn.secondary {
-  background: #f3f4f6;
+select{ cursor:pointer; }
+
+input[type="date"]:focus,
+input[type="email"]:focus,
+.input:focus,
+.select:focus,
+select:focus{
+  border-color: rgba(37,99,235,.45);
+  box-shadow: var(--ring);
+}
+
+/* ============ Pills / chips ============ */
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, #ffffff, #fbfcff);
+  box-shadow: var(--shadow3);
+  font-size: 13px;
   color: var(--text);
 }
 
-.modal-btn.secondary:hover {
-  background: #e5e7eb;
+/* Stats look more "dashboard" */
+.stats-section{
+  display:flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 12px;
+  border: 1px dashed rgba(37,99,235,.22);
+  background: linear-gradient(180deg, var(--brandSoft), #ffffff);
+  border-radius: var(--radius);
+  margin-bottom: 14px;
 }
 
-/* Animación */
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@media (max-width: 600px) {
-  .container {
-    padding: 0 8px;
-  }
-
-  h1, h2 {
-    font-size: 18px;
-  }
-
-  .row {
+@media (max-width: 768px){
+  .stats-section{
     flex-direction: column;
     align-items: stretch;
   }
-
-  input[type="date"],
-  input[type="email"],
-  .btn {
+  .stats-section .pill{
     width: 100%;
-  }
-
-  .table {
-    display: block;
-    overflow-x: auto; /* scroll horizontal si no cabe */
-    white-space: nowrap;
-  }
-
-  /* Botones en columna dentro del modal */
-  .modal-actions {
-    flex-direction: column;
-  }
-
-  .modal-btn {
-    width: 100%;
+    justify-content: center;
   }
 }
 
-.date{
+/* ============ Buttons ============ */
+.btn{
+  padding: 11px 14px;
+  border-radius: var(--radius2);
+  border: 1px solid var(--border);
   background: #fff;
+  color: var(--text);
   cursor: pointer;
-  margin: 2px;
-  margin-bottom: 15px;
-  text-align: center;
+  font-weight: 800;
+  transition: transform .06s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+  box-shadow: 0 1px 0 rgba(15,23,42,.03);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap: 8px;
 }
 
-.text-center{ text-align: center; }
+.btn:hover{
+  background: #f8fafc;
+  box-shadow: var(--shadow3);
+}
+.btn:active{ transform: translateY(1px); }
 
-/* Columna ID centrada */
+.btn.primary{
+  border-color: rgba(37,99,235,.25);
+  background: linear-gradient(180deg, var(--brand), var(--brand2));
+  color:#fff;
+  box-shadow: 0 14px 24px rgba(37,99,235,.18);
+}
+.btn.primary:hover{ filter: brightness(1.03); }
+
+.btn.secundary,
+.btn.secondary{
+  background: #f1f5ff;
+  border-color: rgba(37,99,235,.16);
+  color: #1f2a44;
+}
+
+.btn.linklike{
+  background: transparent;
+  border: none;
+  padding: 8px 10px;
+  color: var(--brand);
+  font-weight: 800;
+  box-shadow: none;
+}
+.btn.linklike:hover{ text-decoration: underline; }
+
+.btn:disabled{
+  opacity: .55;
+  cursor:not-allowed;
+  box-shadow:none;
+}
+
+/* Mobile: buttons full width */
+@media (max-width: 720px){
+  .btn{ width:100%; }
+}
+
+/* ============ Table (desktop) ============ */
+.table{
+  width:100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #fff;
+}
+
+/* sticky header feel */
+.table thead th{
+  position: sticky;
+  top: 0;
+  background: linear-gradient(180deg, #fbfcff, #f6f8ff);
+  border-bottom: 1px solid var(--border);
+  color: #334155;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  padding: 12px 12px;
+  z-index: 1;
+}
+
+.table tbody td{
+  padding: 12px 12px;
+  border-bottom: 1px solid #f0f3fa;
+  vertical-align: middle;
+}
+
+.table tbody tr:hover{
+  background: #fbfdff;
+}
+
+/* Column sizing */
 .table th:first-child,
-.table td:first-child {
+.table td:first-child{
+  text-align:center;
+  width: 64px;
+}
+
+/* ============ Switch ============ */
+.switch{
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 26px;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+.switch input{ opacity:0; width:0; height:0; }
+
+.slider{
+  position:absolute;
+  inset:0;
+  cursor:pointer;
+  background: #e8edf7;
+  border: 1px solid rgba(148,163,184,.6);
+  transition: .2s;
+  border-radius: 999px;
+}
+.slider:before{
+  position:absolute;
+  content:"";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  top: 2px;
+  background: #fff;
+  border-radius: 999px;
+  box-shadow: 0 6px 14px rgba(15,23,42,.12);
+  transition: .2s;
+}
+input:checked + .slider{
+  background: rgba(22,163,74,.18);
+  border-color: rgba(22,163,74,.35);
+}
+input:checked + .slider:before{
+  transform: translateX(20px);
+}
+
+/* ============ Badges ============ */
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #fff;
+}
+
+.badge.yes{
+  background: #ecfdf5;
+  border-color: rgba(22,163,74,.25);
+  color: var(--ok);
+}
+.badge.no{
+  background: #fef2f2;
+  border-color: rgba(220,38,38,.25);
+  color: var(--bad);
+}
+
+/* ============ Error text ============ */
+.error{
+  margin: 10px 0 0;
+  color: var(--bad);
+  background: #fff5f5;
+  border: 1px solid rgba(220,38,38,.18);
+  padding: 10px 12px;
+  border-radius: var(--radius2);
+}
+
+/* ============ Modals ============ */
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  background: rgba(15, 23, 42, .35);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 16px;
+  z-index: 2000;
+}
+
+.modal-card{
+  width: min(520px, 100%);
+  background: #fff;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 18px;
+  text-align:center;
+  animation: pop .2s ease-in-out;
+}
+
+.modal-card.success{ border-color: rgba(22,163,74,.25); }
+.modal-card.error{ border-color: rgba(220,38,38,.25); }
+
+.modal-actions{
+  display:flex;
+  gap: 10px;
+  justify-content:center;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.modal-btn{
+  padding: 10px 14px;
+  border-radius: var(--radius2);
+  border: 1px solid var(--border);
+  background:#fff;
+  cursor:pointer;
+  font-weight:800;
+}
+
+.modal-btn.primary{
+  border-color: rgba(37,99,235,.25);
+  background: linear-gradient(180deg, var(--brand), var(--brand2));
+  color:#fff;
+}
+.modal-btn.secondary{
+  background: #f8fafc;
+}
+
+@keyframes pop{
+  from{ opacity:0; transform: translateY(10px) scale(.98); }
+  to{ opacity:1; transform: translateY(0) scale(1); }
+}
+
+/* ============ Mobile: table -> cards ============ */
+@media (max-width: 720px){
+  .row{ justify-content:flex-start; }
+  input[type="date"], input[type="email"], .input, .select, select{ width:100%; }
+  .btn, .modal-btn{ width:100%; }
+
+  .table thead{ display:none; }
+  .table, .table tbody, .table tr, .table td{ display:block; width:100%; }
+  .table{ border-radius: var(--radius); }
+  .table tbody tr{
+    border-bottom: 1px solid #eef2ff;
+    padding: 12px 12px;
+  }
+  .table tbody td{
+    border:none;
+    padding: 8px 6px;
+  }
+  .table tbody td:nth-child(1)::before{
+    content:"ID: ";
+    color: var(--muted);
+    font-weight: 800;
+  }
+  .table tbody td:nth-child(2)::before{
+    content:"Nombre: ";
+    color: var(--muted);
+    font-weight: 800;
+  }
+  .table tbody td:nth-child(3)::before{
+    content:"Asistencia: ";
+    color: var(--muted);
+    font-weight: 800;
+    display:block;
+    margin-bottom: 6px;
+  }
+}
+/* ===========================================
+   SOLO UserGate: centrar label + input + botón
+   (sin tocar JSX)
+=========================================== */
+
+/* El form del UserGate está dentro del 2do card: header.card + section.card */
+.container > header.card + section.card form {
+  max-width: 720px;
+  margin: 0 auto;
+  display: grid;
+  gap: 12px;
+  justify-items: center; /* centra elementos dentro del grid */
+}
+
+/* Centrar el label (texto) */
+.container > header.card + section.card form label,
+.container > header.card + section.card form .label {
+  width: 100%;
   text-align: center;
-  width: 40px;
+  align-items: center;
 }
 
-/* Columna Nombre alineada a la izquierda */
-.table th:nth-child(2),
-.table td:nth-child(2) {
-  text-align: left;
+/* Input centrado y no tan gigante */
+.container > header.card + section.card form input[type="email"],
+.container > header.card + section.card form .input {
+  width: min(700px, 100%);
+  margin: 0 auto;
 }
 
-/* ==== Controles de asistencia ==== */
-.controls {
+/* Botón centrado (en PC no ocupa todo) */
+.container > header.card + section.card form .btn,
+.container > header.card + section.card form button {
+  width: auto;
+  min-width: 170px;
+}
+
+/* En móvil: input y botón full width */
+@media (max-width: 720px) {
+  .container > header.card + section.card form .btn,
+  .container > header.card + section.card form button {
+    width: 100%;
+    min-width: 0;
+  }
+}
+/* ===========================================
+   SOLO UserGate: centrar TODO en la pantalla
+   (vertical + horizontal, sin tocar JSX)
+=========================================== */
+
+/* Caso UserGate: .container que tiene header.card + section.card */
+.container:has(> header.card + section.card) {
+  min-height: 100vh;              /* ocupa toda la pantalla */
+  display: flex;                  /* cambia grid -> flex solo aquí */
+  flex-direction: column;
+  justify-content: center;        /* centra vertical */
+  align-items: center;            /* centra horizontal */
+  gap: 16px;
+  padding: 24px 12px;             /* aire arriba/abajo en móviles */
+}
+
+/* Mantener ancho bonito de las cards en UserGate */
+.container:has(> header.card + section.card) > header.card,
+.container:has(> header.card + section.card) > section.card {
+  width: min(820px, 100%);
+}
+
+/* Que el card del input no se vea gigante */
+.container:has(> header.card + section.card) > section.card {
+  padding-top: 16px;
+}
+
+/* En pantallas muy pequeñas, reduce espacio */
+@media (max-width: 480px) {
+  .container:has(> header.card + section.card) {
+    padding: 18px 10px;
+  }
+}
+/* ===========================================
+   SOLO UserGate: centrado vertical SIN overflow
+=========================================== */
+
+.container:has(> header.card + section.card) {
+  /* Anula el margin que tu .container trae por defecto */
+  margin: 0 auto !important;
+
+  /* Usa viewport dinámico (evita overflow por barras del navegador) */
+  min-height: 100dvh;
+
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  align-items: stretch;
-  margin: 12px 0;
+  justify-content: center;
+  align-items: center;
+
+  gap: 16px;
+
+  /* Padding inteligente: no excede y se adapta */
+  padding: clamp(12px, 3vh, 28px) 12px;
 }
 
-/* En pantallas grandes: todo en fila */
-@media (min-width: 768px) {
-  .controls {
-    flex-direction: row;
-    justify-content: flex-start;
-    align-content: center;
-    align-items: center;
-  }
-
-  .controls input[type="date"] {
-    width: auto;
-  }
-
-  .controls .btn {
-    width: auto;
-  }
-
-  .inline-label {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    color: var(--muted);
-  }
+/* Mantener ancho bonito de las cards en UserGate */
+.container:has(> header.card + section.card) > header.card,
+.container:has(> header.card + section.card) > section.card {
+  width: min(820px, 100%);
 }
 
-/* 📱 En pantallas pequeñas, fuerza columna en stats */
-@media screen and (max-width: 768px) {
-  .stats-section {
-    flex-direction: column !important;
-    align-items: stretch !important;
-  }
-
-  .stats-section .pill {
-    width: 100% !important;
+/* (Opcional) si aun ves 1px de scroll, fuerza recorte mínimo */
+@supports (height: 100dvh) {
+  .container:has(> header.card + section.card) {
+    overflow: hidden;
   }
 }

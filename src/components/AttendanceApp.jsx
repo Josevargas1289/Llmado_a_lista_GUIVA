@@ -2,49 +2,138 @@ import { useEffect, useMemo, useState } from "react";
 import emailjs from "@emailjs/browser";
 import groupsData from "../data/groups.json";
 import teachersData from "../data/teachers.json";
-// import GroupSelector from "./GroupSelector";  // 🔒 Comentado para uso futuro
+import GroupSelector from "./GroupSelector";
 import { formatDateForCO, todayISO } from "../utils/dates";
 import { shortName } from "../utils/names";
 
-export default function AttendanceApp({ teacherEmail, onChangeUser }) {
-  // Encontrar docente
-  const teacher = useMemo(
-    () => teachersData.find((t) => t.email === teacherEmail) || null,
-    [teacherEmail]
-  );
+// Normalizador para evitar fallos por espacios o mayúsculas
+const norm = (v) => String(v ?? "").trim().toLowerCase();
 
-  // Seguridad: si no existe el docente en el JSON
+// Selector especial para secundaria:
+// - muestra TODOS los grupos con level "secundaria"
+// - marca los asignados con "(Asignado)"
+function SecondaryGroupSelector({ groups, assignedIds, value, onChange }) {
+  const norm = (v) => String(v ?? "").trim().toLowerCase();
+
+  const assignedSet = useMemo(() => new Set((assignedIds || []).map(norm)), [assignedIds]);
+
+  // Extrae grado y sección desde "8-1"
+  const parseId = (id) => {
+    const s = String(id ?? "").trim();
+    const m = s.match(/^(\d+)\s*-\s*(\d+)$/); // "11-1"
+    if (!m) return { grade: 999, section: 999, raw: s };
+    return { grade: Number(m[1]), section: Number(m[2]), raw: s };
+  };
+
+  const options = useMemo(() => {
+    const secondary = (groups || []).filter((g) => norm(g.level) === "secundaria");
+
+    // ✅ Orden ascendente por grado y sección
+    return [...secondary].sort((a, b) => {
+      const A = parseId(a.id);
+      const B = parseId(b.id);
+
+      if (A.grade !== B.grade) return A.grade - B.grade;       // 6..11
+      if (A.section !== B.section) return A.section - B.section; // 1..n
+
+      // fallback por nombre si algo raro
+      return String(a.name).localeCompare(String(b.name), "es");
+    });
+  }, [groups]);
+
+  return (
+    <div className="card">
+      <h3>Selecciona el grupo para pasar lista hoy</h3>
+      <select
+        className="select"
+        value={value || ""}
+        onChange={(e) => onChange(e.target.value)}
+      >
+        <option value="" disabled>— Elegir grupo —</option>
+        {options.map((g) => {
+          const isAssigned = assignedSet.has(norm(g.id));
+          return (
+            <option key={g.id} value={g.id}>
+              {g.name}{isAssigned ? " (Asignado)" : ""}
+            </option>
+          );
+        })}
+      </select>
+      <p style={{ marginTop: 8, fontSize: 12, opacity: 0.8 }}>
+        Los cursos con <b>(Asignado)</b> pertenecen a tu asignación.
+      </p>
+    </div>
+  );
+}
+
+
+export default function AttendanceApp({ teacherEmail, onChangeUser }) {
+  // ===== Docente =====
+  const teacher = useMemo(() => {
+    const emailN = norm(teacherEmail);
+    return teachersData.find((t) => norm(t.email) === emailN) || null;
+  }, [teacherEmail]);
+
   useEffect(() => {
-    if (!teacher) {
-      onChangeUser?.();
-    }
+    if (!teacher) onChangeUser?.();
   }, [teacher, onChangeUser]);
 
   const [dateStr, setDateStr] = useState(() => todayISO());
   const [groupId, setGroupId] = useState("");
 
-  // Autoasignar siempre el grupo asignado al docente
-  useEffect(() => {
-    if (!teacher) return;
-    const only = teacher.assignedGrades?.[0] || ""; // primer grupo asignado
-    setGroupId(only);
-  }, [teacher]);
+  const assignedIds = useMemo(() => teacher?.assignedGrades ?? [], [teacher]);
 
+  // Mapa de grupos
   const groupsById = useMemo(() => {
     const m = new Map();
-    for (const g of groupsData) m.set(g.id, g);
+    for (const g of groupsData) m.set(norm(g.id), g);
     return m;
   }, []);
 
-  const currentGroup = groupId ? groupsById.get(groupId) : null;
+  // ✅ Asignación inicial según rol
+  useEffect(() => {
+    if (!teacher) return;
+
+    const firstAssigned = teacher.assignedGrades?.[0]
+      ? String(teacher.assignedGrades[0]).trim()
+      : "";
+
+    if (teacher.role === "primaria") {
+      // primaria: autoasigna el grupo del docente
+      setGroupId(firstAssigned);
+    } else {
+      // secundaria: arranca con el asignado, y luego el profe puede cambiarlo
+      setGroupId(firstAssigned);
+    }
+  }, [teacher]);
+
+  // ✅ Debug útil: si el grupo asignado NO existe en groups.json, te lo avisa
+  useEffect(() => {
+    if (!teacher) return;
+    if (!groupId) return;
+
+    const exists = groupsById.has(norm(groupId));
+    if (!exists) {
+      console.warn(
+        "[AttendanceApp] El grupo asignado no existe en groups.json:",
+        groupId,
+        "assignedGrades:",
+        teacher.assignedGrades
+      );
+    }
+  }, [teacher, groupId, groupsById]);
+
+  const currentGroup = groupId ? groupsById.get(norm(groupId)) : null;
   const students = currentGroup?.students ?? [];
 
-  // Asistencia
+  // ===== Asistencia =====
   const [attendance, setAttendance] = useState({});
+
   useEffect(() => {
     if (!currentGroup) return;
     const key = `attendance:${currentGroup.id}:${dateStr}`;
     const saved = localStorage.getItem(key);
+
     if (saved) setAttendance(JSON.parse(saved));
     else {
       const init = {};
@@ -81,13 +170,12 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
     setAll(!allPresent);
   }
 
-  // ==== Estados para modales ====
+  // ===== Modales =====
   const [showConfirm, setShowConfirm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const [confirmData, setConfirmData] = useState(null);
 
-  // Paso 1: abrir modal de confirmación
   function sendEmail() {
     if (!teacher || !currentGroup) return;
 
@@ -98,7 +186,6 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
     setShowConfirm(true);
   }
 
-  // Paso 2: si el usuario acepta en el modal, enviamos
   async function handleConfirmSend() {
     setShowConfirm(false);
     const { fecha, grupo, absentCount } = confirmData;
@@ -123,10 +210,10 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
         { subject, body },
         teacher.emailjs.publicKey
       );
-      setShowSuccess(true); // ✅ modal de éxito
+      setShowSuccess(true);
     } catch (e) {
       console.error(e);
-      setShowError(true);   // ❌ modal de error
+      setShowError(true);
     }
   }
 
@@ -139,14 +226,14 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
     <div className="container">
       <header className="card">
         <h1 className="text-center">
-          Llamado a Lista {teacher?.role === "primaria" && currentGroup && (
-            <span>{currentGroup.name}</span>
-          )}
+          Llamado a Lista {currentGroup && <span>{currentGroup.name}</span>}
         </h1>
 
         {teacher && (
           <div className="row">
-            <div className="pill">Docente: <strong>{teacher.name}</strong></div>
+            <div className="pill">
+              Docente: <strong>{teacher.name}</strong>
+            </div>
             <button className="btn linklike" onClick={handleChangeUser}>
               Cambiar usuario
             </button>
@@ -154,7 +241,7 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
         )}
 
         <div className="controls inline-label">
-          <div className="row">
+          <div className="row" style={{ gap: 12, alignItems: "center" }}>
             <label className="inline-label">
               Fecha:
               <input
@@ -164,6 +251,27 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
               />
             </label>
           </div>
+
+          {/* ===== Selector según rol ===== */}
+          {teacher?.role === "primaria" ? (
+            assignedIds.length > 1 ? (
+              <GroupSelector
+                groups={groupsData}
+                allowedIds={assignedIds}
+                value={groupId}
+                onChange={setGroupId}
+              />
+            ) : (
+              <div className="pill">Grupo asignado automáticamente</div>
+            )
+          ) : (
+            <SecondaryGroupSelector
+              groups={groupsData}
+              assignedIds={assignedIds}
+              value={groupId}
+              onChange={setGroupId}
+            />
+          )}
 
           <div className="row">
             <button className="btn secundary" onClick={toggleAll} disabled={!currentGroup}>
@@ -222,7 +330,7 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
         )}
       </section>
 
-      {/* ==== MODALES ==== */}
+      {/* MODALES */}
       {showConfirm && (
         <div className="modal-overlay">
           <div className="modal-card">
