@@ -436,181 +436,163 @@ input:checked + .slider:before{
 /* ===========================================
    MOBILE: Tabla compacta (NO cards)
 =========================================== */
-
+/* ===========================================
+   MÓVIL: SIN overflow horizontal y badges visibles
+   - No usamos scroll horizontal
+   - "Asistió/Faltó" SIEMPRE se ve
+   - Si no cabe en una línea, el badge baja debajo del switch
+=========================================== */
 @media (max-width: 720px){
-  .row{ justify-content:flex-start; }
-  input[type="date"], input[type="email"], .input, .select, select{ width:100%; }
-  .btn, .modal-btn{ width:100%; }
 
-  /* tabla compacta con scroll horizontal suave */
+  /* Contenedor/card más compacto */
+  .container{ width: calc(100% - 16px) !important; }
+  .card{ padding: 10px !important; border-radius: 14px !important; }
+
+  /* Tabla controlada */
   .table{
-    display:block;
-    overflow-x:auto;
-    white-space:nowrap;
-    -webkit-overflow-scrolling:touch;
+    width: 100% !important;
+    table-layout: fixed !important;     /* clave */
+    overflow: hidden !important;        /* sin scroll horizontal */
+    white-space: normal !important;     /* IMPORTANTÍSIMO (quita nowrap) */
+    display: table !important;          /* evita display:block de reglas viejas */
   }
 
-  /* ajusta un poco tamaños/padding */
-  .table thead th{ padding:10px 10px; font-size:11px; }
-  .table tbody td{ padding:10px 10px; }
+  .table thead th{ padding: 8px 8px !important; font-size: 10px !important; }
+  .table tbody td{ padding: 8px 8px !important; }
 
-  /* mantiene switch + badge en una misma línea */
-  .table tbody td:nth-child(3){ white-space:nowrap; }
-}
-
-/* ===========================================
-   SOLO UserGate: centrado total + sin overflow
-   (sin tocar JSX)
-=========================================== */
-
-.container:has(> header.card + section.card){
-  /* anula el margin de .container general para que no empuje y cause scroll */
-  margin: 0 auto !important;
-
-  min-height: 100dvh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  gap:16px;
-  padding: clamp(12px, 3vh, 28px) 12px;
-}
-
-.container:has(> header.card + section.card) > header.card,
-.container:has(> header.card + section.card) > section.card{
-  width: min(820px, 100%);
-}
-
-/* centra label + input + botón dentro del form */
-.container:has(> header.card + section.card) > section.card form{
-  width:100%;
-  max-width: 720px;
-  margin:0 auto;
-  display:grid;
-  gap:12px;
-  justify-items:center;
-}
-
-.container:has(> header.card + section.card) > section.card form label,
-.container:has(> header.card + section.card) > section.card form .label{
-  width:100%;
-  text-align:center;
-  align-items:center;
-}
-
-.container:has(> header.card + section.card) > section.card form input[type="email"],
-.container:has(> header.card + section.card) > section.card form .input{
-  width: min(700px, 100%);
-}
-
-.container:has(> header.card + section.card) > section.card form .btn,
-.container:has(> header.card + section.card) > section.card form button{
-  width:auto;
-  min-width:170px;
-}
-
-@media (max-width: 720px){
-  .container:has(> header.card + section.card) > section.card form .btn,
-  .container:has(> header.card + section.card) > section.card form button{
-    width:100%;
-    min-width:0;
+  /* Columna # compacta */
+  .table th:nth-child(1),
+  .table td:nth-child(1){
+    width: 34px !important;
+    text-align: center !important;
   }
-}
 
-/* ===========================================
-   BOTÓN "Marcar todos": Verde si Asistieron
-   Rosado si Faltaron (solo CSS, sin tocar JSX)
-   (usa :has() que Chrome soporta)
-=========================================== */
+  /* Columna asistencia: ancho razonable */
+  .table th:nth-child(3),
+  .table td:nth-child(3){
+    width: 118px !important; /* ajusta 110-130 si deseas */
+  }
 
-/* estado por defecto: verde (Asistieron) */
-.controls .btn.secundary{
-  background: #ecfdf5;
-  border-color: rgba(22,163,74,.25);
-  color: #166534;
-}
-
-/* si el texto contiene "Faltaron" => rosado */
-.controls .row:has(.btn.secundary){
-  /* no hace nada aquí, solo mantiene especificidad */
-}
-
-/* cuando el botón muestra "Faltaron" (por tu lógica allPresent) */
-.controls .row:has(.btn.secundary):has(.btn.secundary:where(:not(:disabled))){
-  /* no-op */
-}
-
-/* Truco: usamos :has() con selector por atributo del DOM no es posible,
-   pero sí podemos detectarlo por el estado allPresent si le agregas clase.
-   Si NO quieres tocar JSX, hacemos un enfoque estable:
-   - el botón cambia de texto, pero CSS no puede leer texto.
-   - Entonces: te dejo 2 opciones:
-     A) (Recomendada) 1 línea en JSX para clase.
-     B) Sin JSX: dejamos solo verde siempre.
-*/
-
-/* ==========================
-   OPCIÓN A (RECOMENDADA):
-   agrega en el botón:
-   className={`btn secundary ${allPresent ? "state-absent" : "state-present"}`}
-   y listo. Aquí los estilos:
-========================== */
-
-.controls .btn.secundary.state-present{
-  background: #ecfdf5;
-  border-color: rgba(22,163,74,.25);
-  color: #166534;
-}
-.controls .btn.secundary.state-absent{
-  background: #fff1f2;                 /* rosado suave */
-  border-color: rgba(244,63,94,.25);
-  color: #9f1239;
-}
-/* Botón "Marcar todos" con estado pastel */
-.controls .btn.secundary.state-present{
-  background: #ecfdf5;                /* verde pastel */
-  border-color: rgba(22,163,74,.25);
-  color: #166534;
-}
-
-.controls .btn.secundary.state-absent{
-  background: #fff1f2;                /* rojo/rosado pastel */
-  border-color: rgba(244,63,94,.25);
-  color: #9f1239;
-}
-
-/* (opcional) hover sutil */
-.controls .btn.secundary.state-present:hover{
-  filter: brightness(0.98);
-}
-.controls .btn.secundary.state-absent:hover{
-  filter: brightness(0.98);
-}
-/* ✅ NOMBRE a la izquierda (junto al ID), no centrado */
-.table th:nth-child(2),
-.table td:nth-child(2) {
-  text-align: left !important;
-}
-
-/* ✅ En móvil (cuando se activa el modo responsive/table scroll), fuerza alineación */
-@media (max-width: 720px) {
-  .table td:nth-child(2) {
+  /* Nombre: a la izquierda y que no empuje */
+  .table th:nth-child(2),
+  .table td:nth-child(2){
     text-align: left !important;
-  }
-}
-/* ✅ iOS: evitar zoom al enfocar el input (UserGate) */
-@media (max-width: 720px) {
-  /* aplica al input del UserGate (el form del segundo card) */
-  .container > header.card + section.card input[type="email"] {
-    font-size: 16px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
 
-  /* si usas clase .input en ese mismo input */
-  .container > header.card + section.card .input {
-    font-size: 16px !important;
+  /* Celda asistencia: permite que el badge baje si hace falta */
+  .table td:nth-child(3){
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex-wrap: wrap !important;         /* ✅ si no cabe, baja */
+    overflow: visible !important;       /* ✅ NO recorta el badge */
+    white-space: normal !important;     /* ✅ NO recorta el texto */
+  }
+
+  /* Switch más pequeño */
+  .switch{
+    width: 38px !important;
+    height: 20px !important;
+    margin-right: 0 !important;
+    flex: 0 0 auto !important;
+  }
+  .slider:before{
+    width: 14px !important;
+    height: 14px !important;
+    top: 2px !important;
+    left: 3px !important;
+  }
+  input:checked + .slider:before{ transform: translateX(16px) !important; }
+
+  /* Badge compacto pero legible */
+  .badge{
+    font-size: 11px !important;
+    padding: 4px 8px !important;
+    line-height: 1 !important;
+    min-width: 64px !important;       /* ✅ cabe “Asistió” */
+    justify-content: center !important;
+    flex: 0 0 auto !important;
   }
 }
-/* iPhone: que el contenedor use alto dinámico y no “salte” raro con el teclado */
-.container:has(> header.card + section.card) {
-  min-height: 100dvh;
+
+/* ✅ iOS: evitar zoom al tocar input (UserGate) */
+@media (max-width: 720px){
+  input[type="email"], .input{ font-size: 16px !important; }
+}
+/* ===========================================
+   MÓVIL: Switch + Badge SIEMPRE en una fila
+   (sin overflow horizontal)
+=========================================== */
+@media (max-width: 720px){
+
+  /* Tabla estable */
+  .table{
+    width: 100% !important;
+    table-layout: fixed !important;
+    overflow: hidden !important;
+    white-space: normal !important;
+    display: table !important;
+  }
+
+  /* # compacto */
+  .table th:nth-child(1),
+  .table td:nth-child(1){
+    width: 34px !important;
+    text-align: center !important;
+  }
+
+  /* ✅ Asistencia: ancho fijo suficiente para switch + badge */
+  .table th:nth-child(3),
+  .table td:nth-child(3){
+    width: 150px !important;   /* si aún no cabe, sube a 160 */
+  }
+
+  /* Nombre: ocupa lo que queda y se recorta con ... */
+  .table th:nth-child(2),
+  .table td:nth-child(2){
+    text-align: left !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  /* ✅ Celda asistencia: TODO en una sola línea */
+  .table td:nth-child(3){
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 6px !important;
+    flex-wrap: nowrap !important;     /* 🔥 esto evita que baje */
+    white-space: nowrap !important;
+    overflow: hidden !important;      /* evita overflow horizontal */
+  }
+
+  /* Switch un poco más pequeño */
+  .switch{
+    width: 38px !important;
+    height: 20px !important;
+    margin-right: 0 !important;
+    flex: 0 0 auto !important;
+  }
+  .slider:before{
+    width: 14px !important;
+    height: 14px !important;
+    top: 2px !important;
+    left: 3px !important;
+  }
+  input:checked + .slider:before{ transform: translateX(16px) !important; }
+
+  /* Badge más compacto pero legible */
+  .badge{
+    font-size: 11px !important;
+    padding: 4px 6px !important;
+    line-height: 1 !important;
+    min-width: 62px !important;     /* “Asistió” cabe */
+    justify-content: center !important;
+    flex: 0 0 auto !important;
+  }
 }
