@@ -9,12 +9,13 @@ import { shortName } from "../utils/names";
 // Normalizador para evitar fallos por espacios o mayúsculas
 const norm = (v) => String(v ?? "").trim().toLowerCase();
 
-// Selector especial para secundaria:
-// - muestra TODOS los grupos con level "secundaria"
-// - marca los asignados con "(Asignado)"
+/**
+ * Selector especial para secundaria:
+ * - muestra TODOS los grupos con level "secundaria"
+ * - marca los asignados con "(Asignado)"
+ * - ordena ascendente 6..11 (y sección 1..n)
+ */
 function SecondaryGroupSelector({ groups, assignedIds, value, onChange }) {
-  const norm = (v) => String(v ?? "").trim().toLowerCase();
-
   const assignedSet = useMemo(() => new Set((assignedIds || []).map(norm)), [assignedIds]);
 
   // Extrae grado y sección desde "8-1"
@@ -28,15 +29,12 @@ function SecondaryGroupSelector({ groups, assignedIds, value, onChange }) {
   const options = useMemo(() => {
     const secondary = (groups || []).filter((g) => norm(g.level) === "secundaria");
 
-    // ✅ Orden ascendente por grado y sección
     return [...secondary].sort((a, b) => {
       const A = parseId(a.id);
       const B = parseId(b.id);
 
-      if (A.grade !== B.grade) return A.grade - B.grade;       // 6..11
+      if (A.grade !== B.grade) return A.grade - B.grade;         // 6..11
       if (A.section !== B.section) return A.section - B.section; // 1..n
-
-      // fallback por nombre si algo raro
       return String(a.name).localeCompare(String(b.name), "es");
     });
   }, [groups]);
@@ -44,28 +42,29 @@ function SecondaryGroupSelector({ groups, assignedIds, value, onChange }) {
   return (
     <div className="card">
       <h3>Selecciona el grupo para pasar lista hoy</h3>
-      <select
-        className="select"
-        value={value || ""}
-        onChange={(e) => onChange(e.target.value)}
-      >
-        <option value="" disabled>— Elegir grupo —</option>
+
+      <select className="select" value={value || ""} onChange={(e) => onChange(e.target.value)}>
+        <option value="" disabled>
+          — Elegir grupo —
+        </option>
+
         {options.map((g) => {
           const isAssigned = assignedSet.has(norm(g.id));
           return (
             <option key={g.id} value={g.id}>
-              {g.name}{isAssigned ? " (Asignado)" : ""}
+              {g.name}
+              {isAssigned ? " (Asignado)" : ""}
             </option>
           );
         })}
       </select>
+
       <p style={{ marginTop: 8, fontSize: 12, opacity: 0.8 }}>
         Los cursos con <b>(Asignado)</b> pertenecen a tu asignación.
       </p>
     </div>
   );
 }
-
 
 export default function AttendanceApp({ teacherEmail, onChangeUser }) {
   // ===== Docente =====
@@ -98,13 +97,9 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
       ? String(teacher.assignedGrades[0]).trim()
       : "";
 
-    if (teacher.role === "primaria") {
-      // primaria: autoasigna el grupo del docente
-      setGroupId(firstAssigned);
-    } else {
-      // secundaria: arranca con el asignado, y luego el profe puede cambiarlo
-      setGroupId(firstAssigned);
-    }
+    // primaria: autoasigna el grupo del docente
+    // secundaria: arranca con el asignado, y luego el profe puede cambiarlo
+    setGroupId(firstAssigned);
   }, [teacher]);
 
   // ✅ Debug útil: si el grupo asignado NO existe en groups.json, te lo avisa
@@ -174,20 +169,30 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
+
+  // confirmData ahora incluye totalCount y absentCount
   const [confirmData, setConfirmData] = useState(null);
 
   function sendEmail() {
     if (!teacher || !currentGroup) return;
 
     const fecha = formatDateForCO(dateStr);
+    const totalCount = students.length;
     const absentCount = absentees.length;
 
-    setConfirmData({ fecha, grupo: currentGroup.name, absentCount });
+    setConfirmData({
+      fecha,
+      grupo: currentGroup.name,
+      totalCount,
+      absentCount,
+    });
+
     setShowConfirm(true);
   }
 
   async function handleConfirmSend() {
     setShowConfirm(false);
+
     const { fecha, grupo, absentCount } = confirmData;
 
     const subject = `Inasistencia ${grupo} · Fecha: ${fecha.replace(/\//g, "-")}`;
@@ -274,9 +279,14 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
           )}
 
           <div className="row">
-            <button className="btn secundary" onClick={toggleAll} disabled={!currentGroup}>
+            <button
+              className={`btn secundary ${allPresent ? "state-absent" : "state-present"}`}
+              onClick={toggleAll}
+              disabled={!currentGroup}
+            >
               {allPresent ? "Marcar todos: Faltaron" : "Marcar todos: Asistieron"}
             </button>
+
             <button className="btn primary" onClick={sendEmail} disabled={!currentGroup}>
               Enviar reporte
             </button>
@@ -290,59 +300,62 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
         </h2>
 
         {currentGroup && (
-          <>
-            <div className="stats-section">
-              <div className="pill">Total: {students.length}</div>
-              <div className="pill">Ausentes: {absentees.length}</div>
-            </div>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Asistencia</th>
+              </tr>
+            </thead>
+            <tbody>
+              {students.map((s) => (
+                <tr key={s.id}>
+                  <td>{s.id}</td>
+                  <td>{shortName(s.name)}</td>
+                  <td>
+                    <label className="switch">
+                      <input
+                        type="checkbox"
+                        checked={attendance[s.id] ?? false}
+                        onChange={() => toggleOne(s.id)}
+                      />
+                      <span className="slider"></span>
+                    </label>
 
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Nombre</th>
-                  <th>Asistencia</th>
+                    <span className={`badge ${attendance[s.id] ? "yes" : "no"}`}>
+                      {attendance[s.id] ? "Asistió" : "Faltó"}
+                    </span>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {students.map((s) => (
-                  <tr key={s.id}>
-                    <td>{s.id}</td>
-                    <td>{shortName(s.name)}</td>
-                    <td>
-                      <label className="switch">
-                        <input
-                          type="checkbox"
-                          checked={attendance[s.id] ?? false}
-                          onChange={() => toggleOne(s.id)}
-                        />
-                        <span className="slider"></span>
-                      </label>
-                      <span className={`badge ${attendance[s.id] ? "yes" : "no"}`}>
-                        {attendance[s.id] ? "Asistió" : "Faltó"}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </>
+              ))}
+            </tbody>
+          </table>
         )}
       </section>
 
       {/* MODALES */}
-      {showConfirm && (
+      {showConfirm && confirmData && (
         <div className="modal-overlay">
           <div className="modal-card">
             <h2>Confirmar envío</h2>
             <p>
-              ¿Enviar el reporte de inasistencia del <b>{confirmData.fecha}</b>?<br />
-              Grupo: <b>{confirmData.grupo}</b><br />
+              ¿Enviar el reporte de inasistencia del <b>{confirmData.fecha}</b>?
+              <br />
+              Grupo: <b>{confirmData.grupo}</b>
+              <br />
+              Total: <b>{confirmData.totalCount}</b>
+              <br />
               Ausentes: <b>{confirmData.absentCount}</b>
             </p>
+
             <div className="modal-actions">
-              <button className="modal-btn primary" onClick={handleConfirmSend}>Aceptar</button>
-              <button className="modal-btn secondary" onClick={() => setShowConfirm(false)}>Cancelar</button>
+              <button className="modal-btn primary" onClick={handleConfirmSend}>
+                Aceptar
+              </button>
+              <button className="modal-btn secondary" onClick={() => setShowConfirm(false)}>
+                Cancelar
+              </button>
             </div>
           </div>
         </div>
@@ -352,7 +365,23 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
         <div className="modal-overlay">
           <div className="modal-card success">
             <h2>✅ Reporte enviado</h2>
-            <button className="modal-btn primary" onClick={() => setShowSuccess(false)}>Aceptar</button>
+
+            {/* Retroalimentación justo después de enviar */}
+            {confirmData && (
+              <p style={{ marginTop: 10 }}>
+                Grupo: <b>{confirmData.grupo}</b>
+                <br />
+                Fecha: <b>{confirmData.fecha}</b>
+                <br />
+                Total: <b>{confirmData.totalCount}</b>
+                <br />
+                Ausentes: <b>{confirmData.absentCount}</b>
+              </p>
+            )}
+
+            <button className="modal-btn primary" onClick={() => setShowSuccess(false)}>
+              Aceptar
+            </button>
           </div>
         </div>
       )}
@@ -362,7 +391,9 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
           <div className="modal-card error">
             <h2>❌ No se pudo enviar</h2>
             <p>Verifica credenciales y plantilla en EmailJS.</p>
-            <button className="modal-btn primary" onClick={() => setShowError(false)}>Cerrar</button>
+            <button className="modal-btn primary" onClick={() => setShowError(false)}>
+              Cerrar
+            </button>
           </div>
         </div>
       )}
