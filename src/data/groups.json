@@ -179,10 +179,7 @@
         "id": 16,
         "name": "IBARGUEN GAYARDO AILYN ARANZA"
       },
-      {
-        "id": 17,
-        "name": "LINAREZ ADAMES JHOANGEL DAVID"
-      },
+  
       {
         "id": 18,
         "name": "LOPEZ OLIVEROS JEREMIAS JOSUE"
@@ -234,10 +231,6 @@
       {
         "id": 30,
         "name": "SANCHEZ MENDOZA JHOSEP AZAEL"
-      },
-      {
-        "id": 31,
-        "name": "SEBASTIAN ISAAC MEDINA GONZALEZ"
       },
       {
         "id": 32,
@@ -1069,7 +1062,7 @@
       },
       {
         "id": 5,
-        "name": "CLAVIJO DE LA TORRE LUCIANA"
+        "name": "CLAVIJO DE_LA_TORRE LUCIANA"
       },
       {
         "id": 6,
@@ -1304,7 +1297,7 @@
       },
       {
         "id": 39,
-        "name": "TOVAR GALVIS MARIA DE LOS ANGELES"
+        "name": "TOVAR GALVIS MARIA DE_LOS_ANGELES"
       },
       {
         "id": 40,
@@ -1541,7 +1534,7 @@
       },
       {
         "id": 3,
-        "name": "CALVO QUICENO MARIA DE LOS ANGELES"
+        "name": "CALVO QUICENO MARIA DE_LOS_ANGELES"
       },
       {
         "id": 4,
