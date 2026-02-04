@@ -596,3 +596,123 @@ input:checked + .slider:before{
     flex: 0 0 auto !important;
   }
 }
+@media (max-width: 480px){
+  .inline-label{
+    gap: 8px !important;
+  }
+  .inline-label input[type="date"]{
+    width: 150px !important;
+  }
+}
+/* ===========================================
+   USER GATE (Pantalla de inicio bonita)
+   - solo aplica cuando hay header.card + section.card
+=========================================== */
+.container:has(> header.card + section.card){
+  min-height: 100dvh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap: 16px;
+  padding: 28px 14px;
+}
+
+/* Cards más elegantes y consistentes */
+.container:has(> header.card + section.card) > header.card,
+.container:has(> header.card + section.card) > section.card{
+  width: min(760px, 100%);
+  border-radius: 22px;
+  box-shadow: 0 22px 60px rgba(15,23,42,.10);
+}
+
+/* Header (título) como “hero” */
+.container:has(> header.card + section.card) > header.card{
+  padding: 22px 18px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* franja superior bonita (ya tienes before en la primera card, pero reforzamos) */
+.container:has(> header.card + section.card) > header.card::after{
+  content:"";
+  position:absolute;
+  inset:auto -40px -60px -40px;
+  height: 140px;
+  background:
+    radial-gradient(closest-side at 25% 40%, rgba(37,99,235,.18), transparent 70%),
+    radial-gradient(closest-side at 75% 30%, rgba(16,185,129,.16), transparent 70%);
+  filter: blur(2px);
+  pointer-events:none;
+}
+
+/* Título grande y más pro */
+.container:has(> header.card + section.card) > header.card h1{
+  font-size: clamp(26px, 3vw, 40px);
+  margin: 6px 0 6px !important;
+  letter-spacing: -0.6px;
+}
+
+/* Subtítulo con mejor contraste */
+.container:has(> header.card + section.card) > header.card p{
+  margin: 0;
+  font-size: 15px;
+  color: rgba(71,85,105,.95);
+}
+
+/* Card del formulario */
+.container:has(> header.card + section.card) > section.card{
+  padding: 18px;
+}
+
+/* Form centrado y con estética “input + botón” */
+.container:has(> header.card + section.card) > section.card form{
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  display: grid;
+  gap: 14px;
+  justify-items: stretch;
+}
+
+/* Label centrado pero sin verse raro */
+.container:has(> header.card + section.card) > section.card form label{
+  width: 100%;
+  text-align: left;
+  color: rgba(71,85,105,.95);
+  font-weight: 700;
+}
+
+/* Input como “campo premium” */
+.container:has(> header.card + section.card) > section.card input[type="email"],
+.container:has(> header.card + section.card) > section.card .input{
+  width: 100%;
+  border-radius: 16px;
+  padding: 14px 14px;
+  border: 1px solid rgba(148,163,184,.35);
+  background: rgba(255,255,255,.9);
+  box-shadow: 0 10px 24px rgba(15,23,42,.06);
+}
+
+.container:has(> header.card + section.card) > section.card input[type="email"]:focus,
+.container:has(> header.card + section.card) > section.card .input:focus{
+  border-color: rgba(37,99,235,.55);
+  box-shadow: 0 0 0 4px rgba(37,99,235,.14), 0 10px 24px rgba(15,23,42,.08);
+}
+
+/* Botón más grande, full width y más “call to action” */
+.container:has(> header.card + section.card) > section.card .btn,
+.container:has(> header.card + section.card) > section.card button{
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+/* En PC: que el form no se vea “demasiado largo” */
+@media (min-width: 920px){
+  .container:has(> header.card + section.card) > section.card{
+    padding: 20px 22px;
+  }
+}

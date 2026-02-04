@@ -9,55 +9,51 @@ import { shortName } from "../utils/names";
 // Normalizador para evitar fallos por espacios o mayúsculas
 const norm = (v) => String(v ?? "").trim().toLowerCase();
 
-/**
- * Selector especial para secundaria:
- * - muestra TODOS los grupos con level "secundaria"
- * - marca los asignados con "(Asignado)"
- * - ordena ascendente 6..11 (y sección 1..n)
- */
+// Selector especial para secundaria:
+// - muestra TODOS los grupos con level "secundaria"
+// - marca los asignados con "(Asignado)"
 function SecondaryGroupSelector({ groups, assignedIds, value, onChange }) {
   const assignedSet = useMemo(() => new Set((assignedIds || []).map(norm)), [assignedIds]);
 
-  // Extrae grado y sección desde "8-1"
   const parseId = (id) => {
     const s = String(id ?? "").trim();
-    const m = s.match(/^(\d+)\s*-\s*(\d+)$/); // "11-1"
+    const m = s.match(/^(\d+)\s*-\s*(\d+)$/);
     if (!m) return { grade: 999, section: 999, raw: s };
     return { grade: Number(m[1]), section: Number(m[2]), raw: s };
   };
 
   const options = useMemo(() => {
     const secondary = (groups || []).filter((g) => norm(g.level) === "secundaria");
-
     return [...secondary].sort((a, b) => {
       const A = parseId(a.id);
       const B = parseId(b.id);
-
-      if (A.grade !== B.grade) return A.grade - B.grade;         // 6..11
-      if (A.section !== B.section) return A.section - B.section; // 1..n
+      if (A.grade !== B.grade) return A.grade - B.grade;
+      if (A.section !== B.section) return A.section - B.section;
       return String(a.name).localeCompare(String(b.name), "es");
     });
   }, [groups]);
 
   return (
-    <div className="card">
-      <h3>Selecciona el grupo para pasar lista hoy</h3>
-
-      <select className="select" value={value || ""} onChange={(e) => onChange(e.target.value)}>
-        <option value="" disabled>
-          — Elegir grupo —
-        </option>
-
-        {options.map((g) => {
-          const isAssigned = assignedSet.has(norm(g.id));
-          return (
-            <option key={g.id} value={g.id}>
-              {g.name}
-              {isAssigned ? " (Asignado)" : ""}
-            </option>
-          );
-        })}
-      </select>
+    <div style={{ width: "100%" }}>
+      <label style={{ width: "100%" }}>
+        <span style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          📚 <b>Grupo</b>
+        </span>
+        <select className="select" value={value || ""} onChange={(e) => onChange(e.target.value)}>
+          <option value="" disabled>
+            — Elegir grupo —
+          </option>
+          {options.map((g) => {
+            const isAssigned = assignedSet.has(norm(g.id));
+            return (
+              <option key={g.id} value={g.id}>
+                {g.name}
+                {isAssigned ? " (Asignado)" : ""}
+              </option>
+            );
+          })}
+        </select>
+      </label>
 
       <p style={{ marginTop: 8, fontSize: 12, opacity: 0.8 }}>
         Los cursos con <b>(Asignado)</b> pertenecen a tu asignación.
@@ -97,12 +93,10 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
       ? String(teacher.assignedGrades[0]).trim()
       : "";
 
-    // primaria: autoasigna el grupo del docente
-    // secundaria: arranca con el asignado, y luego el profe puede cambiarlo
     setGroupId(firstAssigned);
   }, [teacher]);
 
-  // ✅ Debug útil: si el grupo asignado NO existe en groups.json, te lo avisa
+  // Debug si el grupo asignado no existe
   useEffect(() => {
     if (!teacher) return;
     if (!groupId) return;
@@ -170,21 +164,21 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
 
-  // confirmData ahora incluye totalCount y absentCount
+  // Info para el modal (confirm + success)
   const [confirmData, setConfirmData] = useState(null);
+  const [sentSummary, setSentSummary] = useState(null); // ✅ total/ausentes post-envío
 
   function sendEmail() {
     if (!teacher || !currentGroup) return;
 
     const fecha = formatDateForCO(dateStr);
-    const totalCount = students.length;
     const absentCount = absentees.length;
 
     setConfirmData({
       fecha,
       grupo: currentGroup.name,
-      totalCount,
       absentCount,
+      total: students.length,
     });
 
     setShowConfirm(true);
@@ -192,8 +186,9 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
 
   async function handleConfirmSend() {
     setShowConfirm(false);
+    const { fecha, grupo } = confirmData;
 
-    const { fecha, grupo, absentCount } = confirmData;
+    const absentCount = absentees.length;
 
     const subject = `Inasistencia ${grupo} · Fecha: ${fecha.replace(/\//g, "-")}`;
     const header =
@@ -215,6 +210,15 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
         { subject, body },
         teacher.emailjs.publicKey
       );
+
+      // ✅ Resumen vuelve a modal de éxito
+      setSentSummary({
+        grupo,
+        fecha,
+        total: students.length,
+        ausentes: absentCount,
+      });
+
       setShowSuccess(true);
     } catch (e) {
       console.error(e);
@@ -227,48 +231,101 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
     onChangeUser?.();
   }
 
+  const groupLabel = currentGroup?.name ? String(currentGroup.name) : "";
+
   return (
     <div className="container">
-      <header className="card">
-        <h1 className="text-center">
-          Llamado a Lista {currentGroup && <span>{currentGroup.name}</span>}
+      {/* ===================== HEADER / CONTROLS ===================== */}
+      <header className="card" style={{ textAlign: "center" }}>
+        {/* Título */}
+        <h1 className="text-center" style={{ marginBottom: 10 }}>
+          📋 Llamado a Lista{" "}
+          {groupLabel ? <span style={{ opacity: 0.9 }}>{groupLabel}</span> : null}
         </h1>
 
+        {/* Docente + cambiar usuario */}
         {teacher && (
-          <div className="row">
-            <div className="pill">
-              Docente: <strong>{teacher.name}</strong>
+          <div
+            className="row"
+            style={{
+              justifyContent: "center",
+              gap: 10,
+              marginBottom: 10,
+            }}
+          >
+            <div className="pill" style={{ justifyContent: "center" }}>
+              👤 <span>Docente:</span> <strong>{teacher.name}</strong>
             </div>
-            <button className="btn linklike" onClick={handleChangeUser}>
-              Cambiar usuario
+
+            <button
+              className="btn secondary"
+              onClick={handleChangeUser}
+              style={{
+                borderRadius: 999,
+                padding: "10px 14px",
+                fontWeight: 900,
+              }}
+            >
+              🔁 Cambiar usuario
             </button>
           </div>
         )}
 
-        <div className="controls inline-label">
-          <div className="row" style={{ gap: 12, alignItems: "center" }}>
-            <label className="inline-label">
-              Fecha:
-              <input
-                type="date"
-                value={dateStr}
-                onChange={(e) => setDateStr(e.target.value)}
-              />
-            </label>
-          </div>
+        {/* Controles */}
+        <div
+          className="controls"
+          style={{
+            maxWidth: 720,
+            margin: "0 auto",
+            width: "100%",
+          }}
+        >
+          {/* Fecha */}
+          {/* Fecha (en una sola línea) */}
+{/* Fecha (en una sola línea) */}
+<div
+  className="inline-label date-row"
+  style={{
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 12,
+  }}
+>
+  <span style={{ display: "flex", gap: 8, alignItems: "center", fontWeight: 900 }}>
+    📅 <span>Fecha:</span>
+  </span>
 
-          {/* ===== Selector según rol ===== */}
+  <input
+    type="date"
+    value={dateStr}
+    onChange={(e) => setDateStr(e.target.value)}
+    className="date-input"
+  />
+</div>
+
+
+
+          {/* Selector grupo según rol */}
           {teacher?.role === "primaria" ? (
+            // ✅ si tiene más de 1 grupo asignado, muestra selector; si no, NO mostramos nada
             assignedIds.length > 1 ? (
-              <GroupSelector
-                groups={groupsData}
-                allowedIds={assignedIds}
-                value={groupId}
-                onChange={setGroupId}
-              />
-            ) : (
-              <div className="pill">Grupo asignado automáticamente</div>
-            )
+              <div style={{ width: "100%" }}>
+                <label style={{ width: "100%", textAlign: "left" }}>
+                  <span style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                    📚 <b>Grupo</b>
+                  </span>
+                </label>
+
+                <GroupSelector
+                  groups={groupsData}
+                  allowedIds={assignedIds}
+                  value={groupId}
+                  onChange={setGroupId}
+                />
+              </div>
+            ) : null
           ) : (
             <SecondaryGroupSelector
               groups={groupsData}
@@ -278,22 +335,28 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
             />
           )}
 
-          <div className="row">
-            <button
-              className={`btn secundary ${allPresent ? "state-absent" : "state-present"}`}
-              onClick={toggleAll}
-              disabled={!currentGroup}
-            >
-              {allPresent ? "Marcar todos: Faltaron" : "Marcar todos: Asistieron"}
-            </button>
+          {/* Botones full width */}
+          <button
+            className={`btn secundary ${allPresent ? "state-absent" : "state-present"}`}
+            onClick={toggleAll}
+            disabled={!currentGroup}
+            style={{ width: "100%" }}
+          >
+            {allPresent ? "🚫 Marcar todos: Faltaron" : "✅ Marcar todos: Asistieron"}
+          </button>
 
-            <button className="btn primary" onClick={sendEmail} disabled={!currentGroup}>
-              Enviar reporte
-            </button>
-          </div>
+          <button
+            className="btn primary"
+            onClick={sendEmail}
+            disabled={!currentGroup}
+            style={{ width: "100%" }}
+          >
+            📩 Enviar reporte
+          </button>
         </div>
       </header>
 
+      {/* ===================== LISTADO ===================== */}
       <section className="card">
         <h2 className="text-center">
           {currentGroup ? `Estudiantes · ${currentGroup.name}` : "Sin grupo asignado"}
@@ -334,26 +397,29 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
         )}
       </section>
 
-      {/* MODALES */}
-      {showConfirm && confirmData && (
+      {/* ===================== MODALES ===================== */}
+      {showConfirm && (
         <div className="modal-overlay">
           <div className="modal-card">
             <h2>Confirmar envío</h2>
-            <p>
+            <p style={{ marginTop: 10 }}>
               ¿Enviar el reporte de inasistencia del <b>{confirmData.fecha}</b>?
               <br />
               Grupo: <b>{confirmData.grupo}</b>
               <br />
-              Total: <b>{confirmData.totalCount}</b>
+              Total: <b>{confirmData.total}</b>
               <br />
               Ausentes: <b>{confirmData.absentCount}</b>
             </p>
 
             <div className="modal-actions">
               <button className="modal-btn primary" onClick={handleConfirmSend}>
-                Aceptar
+                Enviar
               </button>
-              <button className="modal-btn secondary" onClick={() => setShowConfirm(false)}>
+              <button
+                className="modal-btn secondary"
+                onClick={() => setShowConfirm(false)}
+              >
                 Cancelar
               </button>
             </div>
@@ -366,22 +432,32 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
           <div className="modal-card success">
             <h2>✅ Reporte enviado</h2>
 
-            {/* Retroalimentación justo después de enviar */}
-            {confirmData && (
-              <p style={{ marginTop: 10 }}>
-                Grupo: <b>{confirmData.grupo}</b>
-                <br />
-                Fecha: <b>{confirmData.fecha}</b>
-                <br />
-                Total: <b>{confirmData.totalCount}</b>
-                <br />
-                Ausentes: <b>{confirmData.absentCount}</b>
-              </p>
+            {/* ✅ Resumen vuelve aquí */}
+            {sentSummary && (
+              <div style={{ marginTop: 10 }}>
+                <p style={{ margin: 0 }}>
+                  Grupo: <b>{sentSummary.grupo}</b>
+                  <br />
+                  Fecha: <b>{sentSummary.fecha}</b>
+                  <br />
+                  Total: <b>{sentSummary.total}</b>
+                  <br />
+                  Ausentes: <b>{sentSummary.ausentes}</b>
+                </p>
+              </div>
             )}
 
-            <button className="modal-btn primary" onClick={() => setShowSuccess(false)}>
-              Aceptar
-            </button>
+            <div className="modal-actions" style={{ marginTop: 14 }}>
+              <button
+                className="modal-btn primary"
+                onClick={() => {
+                  setShowSuccess(false);
+                  setSentSummary(null);
+                }}
+              >
+                Aceptar
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -391,9 +467,11 @@ export default function AttendanceApp({ teacherEmail, onChangeUser }) {
           <div className="modal-card error">
             <h2>❌ No se pudo enviar</h2>
             <p>Verifica credenciales y plantilla en EmailJS.</p>
-            <button className="modal-btn primary" onClick={() => setShowError(false)}>
-              Cerrar
-            </button>
+            <div className="modal-actions" style={{ marginTop: 14 }}>
+              <button className="modal-btn primary" onClick={() => setShowError(false)}>
+                Cerrar
+              </button>
+            </div>
           </div>
         </div>
       )}
