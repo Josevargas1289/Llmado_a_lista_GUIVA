@@ -716,3 +716,74 @@ input:checked + .slider:before{
     padding: 20px 22px;
   }
 }
+/* ===========================================
+   WEB: quitar scroll sobrante en pantalla inicial (User Gate)
+=========================================== */
+.container:has(> header.card + section.card){
+  margin: 0 auto !important;      /* quita 22/34 que generan scroll */
+  min-height: 100vh !important;
+  padding: 16px 12px !important;  /* menos alto total */
+}
+
+/* ===========================================
+   MÓVIL: NOMBRE en UNA sola línea (Nombre Apellido)
+   - quitamos márgenes/padding extra
+   - reducimos columnas y controles para darle ancho al nombre
+=========================================== */
+@media (max-width: 720px){
+
+  /* Más compacto general (menos “margen” visual) */
+  .container{ width: calc(100% - 12px) !important; }
+  .card{ padding: 8px !important; }
+
+  /* Celdas más compactas para ganar espacio horizontal */
+  .table thead th{ padding: 6px 6px !important; }
+  .table tbody td{ padding: 6px 6px !important; }
+
+  /* Columna # más pequeña */
+  .table th:nth-child(1),
+  .table td:nth-child(1){
+    width: 28px !important;
+  }
+
+  /* Columna asistencia más pequeña (libera ancho para NOMBRE) */
+  .table th:nth-child(3),
+  .table td:nth-child(3){
+    width: 112px !important; /* si quieres más nombre: baja a 106-110 */
+  }
+
+  /* ✅ NOMBRE: UNA sola línea con ellipsis, pero más ancho disponible */
+  .table th:nth-child(2),
+  .table td:nth-child(2){
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    font-size: 12.5px !important;   /* reduce un poco */
+    letter-spacing: -0.1px !important;
+  }
+
+  /* Asistencia: apretar switch + badge */
+  .table td:nth-child(3){
+    gap: 4px !important;
+  }
+
+  .switch{
+    width: 32px !important;
+    height: 18px !important;
+  }
+  .slider:before{
+    width: 12px !important;
+    height: 12px !important;
+    top: 2px !important;
+    left: 3px !important;
+  }
+  input:checked + .slider:before{
+    transform: translateX(14px) !important;
+  }
+
+  .badge{
+    font-size: 10px !important;
+    padding: 3px 6px !important;
+    min-width: 0 !important;       /* IMPORTANTÍSIMO: no reserves ancho */
+  }
+}
