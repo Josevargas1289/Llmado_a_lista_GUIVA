@@ -472,121 +472,41 @@
       }
     ]
   },
-  {
-    "id": "3-1",
-    "name": "3-1",
-    "level": "primaria",
-    "students": [
-      {
-        "id": 1,
-        "name": "BALTAN HINOJOSA ELIAN ANDRES"
-      },
-      {
-        "id": 2,
-        "name": "BASTIDAS SANCHEZ VICTORIA JULIETH"
-      },
-      {
-        "id": 3,
-        "name": "BELALCAZAR CALERO STEPHAN DRAXLER"
-      },
-      {
-        "id": 4,
-        "name": "BONACI GUILLEN ANTONI JOSUE"
-      },
-      {
-        "id": 5,
-        "name": "CAIPE QUELAL JACOBO"
-      },
-      {
-        "id": 6,
-        "name": "CHICA GAMBOA DOMINICK FABIAN"
-      },
-      {
-        "id": 7,
-        "name": "CORDOBA CORDOBA STEFANI DESIREE"
-      },
-      {
-        "id": 8,
-        "name": "GONZALEZ ALBAN LUCIANA"
-      },
-      {
-        "id": 9,
-        "name": "GRISALES ESCOBAR JERONIMO"
-      },
-      {
-        "id": 10,
-        "name": "HERNANDEZ HEREDIA MAURELIS DANIELITH"
-      },
-      {
-        "id": 11,
-        "name": "HERNANDEZ MONTES JOEL"
-      },
-      {
-        "id": 12,
-        "name": "MARTINEZ PEREA CHRISTOFHER JOSUE"
-      },
-      {
-        "id": 13,
-        "name": "MAYORGA ROJAS LUISANNY SARAY"
-      },
-      {
-        "id": 14,
-        "name": "MELENDEZ ARTIGAS LUIS SANTIAGO"
-      },
-      {
-        "id": 15,
-        "name": "MENDEZ DUQUE MARIA JOSE"
-      },
-      {
-        "id": 16,
-        "name": "NAVAS VARELA ENMANUEL DAVID"
-      },
-      {
-        "id": 17,
-        "name": "NUNEZ RODRIGUEZ ISABELLA ADAIL"
-      },
-      {
-        "id": 18,
-        "name": "PANAMEÑO ORTIZ RAYLING DAHIAN"
-      },
-      {
-        "id": 19,
-        "name": "PEREZ LOPEZ MARIA CAMILA"
-      },
-      {
-        "id": 20,
-        "name": "QUELAL CASTAÑO LUCIANA"
-      },
-      {
-        "id": 21,
-        "name": "RESTREPO GUERRERO SARA"
-      },
-      {
-        "id": 22,
-        "name": "REYES VARGAS YOHAN SEBASTIAN"
-      },
-      {
-        "id": 23,
-        "name": "SALINAS DIAZ ALLYSON CAMILA"
-      },
-      {
-        "id": 24,
-        "name": "SINISTERRA OCORO MILAN FERNANDO"
-      },
-      {
-        "id": 25,
-        "name": "VALOY HOME ARIADNA"
-      },
-      {
-        "id": 26,
-        "name": "VIÑA BURGUILLOS REYSON ALEJANDRO"
-      },
-      {
-        "id": 27,
-        "name": "VIVEROS ANGULO MAIKEL ALEXIS"
-      }
-    ]
-  },
+ {
+  "id": "3-1",
+  "name": "3-1",
+  "level": "primaria",
+  "students": [
+    { "id": 1, "name": "ALOMÍA CAMACHO ANGEL DAHIANNA" },
+    { "id": 2, "name": "BALTAN HINOJOSA ELIAN ANDRES" },
+    { "id": 3, "name": "BASTIDAS SANCHEZ VICTORIA JULIETH" },
+    { "id": 4, "name": "BELALCAZAR CALERO STEPHAN DRAXLER" },
+    { "id": 5, "name": "BONACI GUILLEN ANTONI JOSUE" },
+    { "id": 6, "name": "CAIPE QUELAL JACOBO" },
+    { "id": 7, "name": "CHICA GAMBOA DOMINICK FABIAN" },
+    { "id": 8, "name": "CORDOBA CORDOBA STEFANI DESIREE" },
+    { "id": 9, "name": "GONZALEZ ALBAN LUCIANA" },
+    { "id": 10, "name": "GRISALES ESCOBAR JERONIMO" },
+    { "id": 11, "name": "HERNANDEZ HEREDIA MAURELIS DANIELITH" },
+    { "id": 12, "name": "HERNANDEZ MONTES JOEL" },
+    { "id": 13, "name": "MARTINEZ PEREA CHRISTOFHER JOSUE" },
+    { "id": 14, "name": "MAYORGA ROJAS LUISANNY SARAY" },
+    { "id": 15, "name": "MELENDEZ ARTIGAS LUIS SANTIAGO" },
+    { "id": 16, "name": "MENDEZ DUQUE MARIA JOSE" },
+    { "id": 17, "name": "NAVAS VARELA ENMANUEL DAVID" },
+    { "id": 18, "name": "NUNEZ RODRIGUEZ ISABELLA ADAIL" },
+    { "id": 19, "name": "PANAMEÑO ORTIZ RAYLING DAHIAN" },
+    { "id": 20, "name": "PEREZ LOPEZ MARIA CAMILA" },
+    { "id": 21, "name": "QUELAL CASTAÑO LUCIANA" },
+    { "id": 22, "name": "RESTREPO GUERRERO SARA" },
+    { "id": 23, "name": "REYES VARGAS YOHAN SEBASTIAN" },
+    { "id": 24, "name": "SALINAS DIAZ ALLYSON CAMILA" },
+    { "id": 25, "name": "SINISTERRA OCORO MILAN FERNANDO" },
+    { "id": 26, "name": "VALOY HOME ARIADNA" },
+    { "id": 27, "name": "VIÑA BURGUILLOS REYSON ALEJANDRO" },
+    { "id": 28, "name": "VIVEROS ANGULO MAIKEL ALEXIS" }
+  ]
+},
   {
     "id": "3-2",
     "name": "3-2",
