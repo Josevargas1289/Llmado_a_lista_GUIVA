@@ -753,105 +753,37 @@
       }
     ]
   },
-  {
-    "id": "4-2",
-    "name": "4-2",
-    "level": "primaria",
-    "students": [
-      {
-        "id": 1,
-        "name": "ALVAREZ VELASQUES JUAN SEBASTIAN"
-      },
-      {
-        "id": 2,
-        "name": "CAICEDO CHAVERRA JOSHUA ESTEVEN"
-      },
-      {
-        "id": 3,
-        "name": "CANDELA CORTES NICOLLE"
-      },
-      {
-        "id": 4,
-        "name": "CORTES CASTRO ALIK DAMIAN"
-      },
-      {
-        "id": 5,
-        "name": "DELGADO ZAMBRANO DYLAN ALEJANDRO"
-      },
-      {
-        "id": 6,
-        "name": "ESPITIA DIAZ MIGUEL ANGEL"
-      },
-      {
-        "id": 7,
-        "name": "GOMEZ HURTADO DAYAN"
-      },
-      {
-        "id": 8,
-        "name": "GOMEZ MARSIGLIA NICOLLE SOPHIA"
-      },
-      {
-        "id": 9,
-        "name": "GOMEZ MARTINEZ EIMY VERONICA"
-      },
-      {
-        "id": 10,
-        "name": "HINESTROZA CASTAÑEDA LINSAY ORIANA"
-      },
-      {
-        "id": 11,
-        "name": "MARTINEZ JIMENEZ RASHIELLG ADONAY"
-      },
-      {
-        "id": 12,
-        "name": "MARTINEZ MOYETONES XAVIANNIS ANTONELA"
-      },
-      {
-        "id": 13,
-        "name": "MUÑOZ ZAMBRANO SAMUEL"
-      },
-      {
-        "id": 14,
-        "name": "ORTEGA PIÑANGO EDUANYERLIZ DANIESY"
-      },
-      {
-        "id": 15,
-        "name": "ORTEGA RINCON ISABELLA"
-      },
-      {
-        "id": 16,
-        "name": "PANAMEÑO MANCILLA DARLING DAYANA"
-      },
-      {
-        "id": 17,
-        "name": "SALAZAR OCAMPO LUCIANA"
-      },
-      {
-        "id": 18,
-        "name": "SALCEDO CAMPOS GREYSDIANA PAOLA"
-      },
-      {
-        "id": 19,
-        "name": "SERRANO SOLANO SALOME"
-      },
-      {
-        "id": 20,
-        "name": "SINISTERRA DIAGO JEROME"
-      },
-      {
-        "id": 21,
-        "name": "SUAREZ CHIRINO VICTOR JESUS"
-      },
-      {
-        "id": 22,
-        "name": "VALENCIA PULGARIN EILYN SALOMÉ ERICK"
-      },
-      {
-        "id": 23,
-        "name": "VALENCIA RIVERA ERICK"
-      }
-    ]
-  },
+ {
+  "id": "4-2",
+  "name": "4-2",
+  "level": "primaria",
+  "students": [
+    { "id": 1, "name": "ALVAREZ VELASQUES JUAN SEBASTIAN" },
+    { "id": 2, "name": "CAICEDO CHAVERRA JOSHUA ESTEVEN" },
+    { "id": 3, "name": "CANDELA CORTES NICOLLE" },
+    { "id": 4, "name": "CORTES CASTRO ALIK DAMIAN" },
+    { "id": 5, "name": "DELGADO ZAMBRANO DYLAN ALEJANDRO" },
+    { "id": 6, "name": "ESPITIA DIAZ MIGUEL ANGEL" },
+    { "id": 7, "name": "EAMUEL LEYES CASTRILLON" },
+    { "id": 8, "name": "GOMEZ HURTADO DAYAN" },
+    { "id": 9, "name": "GOMEZ MARSIGLIA NICOLLE SOPHIA" },
+    { "id": 10, "name": "GOMEZ MARTINEZ EIMY VERONICA" },
+    { "id": 11, "name": "HINESTROZA CASTAÑEDA LINSAY ORIANA" },
+    { "id": 12, "name": "MARTINEZ JIMENEZ RASHIELLG ADONAY" },
+    { "id": 13, "name": "MARTINEZ MOYETONES XAVIANNIS ANTONELA" },
+    { "id": 14, "name": "MUÑOZ ZAMBRANO SAMUEL" },
+    { "id": 15, "name": "ORTEGA PIÑANGO EDUANYERLIZ DANIESY" },
+    { "id": 16, "name": "ORTEGA RINCON ISABELLA" },
+    { "id": 17, "name": "PANAMEÑO MANCILLA DARLING DAYANA" },
+    { "id": 18, "name": "SALAZAR OCAMPO LUCIANA" },
+    { "id": 19, "name": "SALCEDO CAMPOS GREYSDIANA PAOLA" },
+    { "id": 20, "name": "SERRANO SOLANO SALOME" },
+    { "id": 21, "name": "SINISTERRA DIAGO JEROME" },
+    { "id": 22, "name": "SUAREZ CHIRINO VICTOR JESUS" },
+    { "id": 23, "name": "VALENCIA PULGARIN EILYN SALOMÉ ERICK" },
+    { "id": 24, "name": "VALENCIA RIVERA ERICK" }
+  ]
+}
   {
     "id": "5-1",
     "name": "5-1",
